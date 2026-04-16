@@ -18,7 +18,7 @@ export default function StaffPerformanceReport() {
             if (!token) return;
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:5000/api/reports/staff-performance?month=${month}`, {
+                const response = await fetch(`/api/reports/staff-performance?month=${month}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();

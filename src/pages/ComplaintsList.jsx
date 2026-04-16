@@ -29,7 +29,7 @@ export default function ComplaintsList() {
 
     const fetchStaff = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/staff', {
+            const response = await fetch('/api/users/staff', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
@@ -41,7 +41,7 @@ export default function ComplaintsList() {
 
     const fetchComplaints = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/complaints', {
+            const response = await fetch('/api/complaints', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -72,7 +72,7 @@ export default function ComplaintsList() {
                 payload.slaHours = slaHours;
             }
 
-            const response = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            const response = await fetch(`/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export default function ComplaintsList() {
 
     const handlePriorityUpdate = async (id, newPriority) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            const response = await fetch(`/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function ComplaintsList() {
 
     const handleStatusUpdate = async (id, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            const response = await fetch(`/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export default function ComplaintsList() {
         if (!window.confirm('Are you sure you want to reopen this resolved complaint?')) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            const response = await fetch(`/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function ComplaintsList() {
 
     const handleRate = async (id, rating) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            const response = await fetch(`/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

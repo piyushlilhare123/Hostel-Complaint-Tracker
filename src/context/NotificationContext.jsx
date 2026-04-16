@@ -21,7 +21,7 @@ export const NotificationProvider = ({ children }) => {
 
         const fetchNotifications = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/notifications', {
+                const response = await fetch('/api/notifications', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
@@ -60,7 +60,7 @@ export const NotificationProvider = ({ children }) => {
 
     const markAsRead = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+            await fetch(`/api/notifications/${id}/read`, {
                 method: 'PATCH',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -73,7 +73,7 @@ export const NotificationProvider = ({ children }) => {
 
     const markAllAsRead = async () => {
         try {
-            await fetch('http://localhost:5000/api/notifications/read-all', {
+            await fetch('/api/notifications/read-all', {
                 method: 'PATCH',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
