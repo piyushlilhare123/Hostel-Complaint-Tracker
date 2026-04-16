@@ -49,10 +49,14 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await response.json();
-            if (!response.ok) throw new Error(data.message);
+            if (!response.ok) {
+                // Return the specific error message from the server if available
+                throw new Error(data.error || data.message || 'Registration failed');
+            }
 
             return { success: true };
         } catch (error) {
+            console.error('[AUTH CONTEXT REGISTER ERROR]:', error);
             return { success: false, message: error.message };
         }
     };
