@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/uploads', express.static('public/uploads'));
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);

@@ -266,7 +266,7 @@ export default function ComplaintsList() {
                                                     <div className="mt-2 flex gap-2">
                                                         {complaint.imageUrl && (
                                                             <a 
-                                                                href={`http://localhost:5000${complaint.imageUrl}`} 
+                                                                href={`${complaint.imageUrl}`} 
                                                                 target="_blank" 
                                                                 rel="noopener noreferrer"
                                                                 className="text-xs px-2 py-1 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-300 rounded hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition border border-indigo-100 dark:border-indigo-800"
@@ -277,7 +277,7 @@ export default function ComplaintsList() {
                                                         )}
                                                         {complaint.videoUrl && (
                                                             <a 
-                                                                href={`http://localhost:5000${complaint.videoUrl}`} 
+                                                                href={`${complaint.videoUrl}`} 
                                                                 target="_blank" 
                                                                 rel="noopener noreferrer"
                                                                 className="text-xs px-2 py-1 bg-teal-50 text-teal-600 dark:bg-teal-900/30 dark:text-teal-300 rounded hover:bg-teal-100 dark:hover:bg-teal-900/50 transition border border-teal-100 dark:border-teal-800"
