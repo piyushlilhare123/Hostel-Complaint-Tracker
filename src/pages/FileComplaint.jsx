@@ -40,10 +40,11 @@ export default function FileComplaint() {
             });
 
             let errorData;
+            const resText = await response.text();
             try {
-                errorData = await response.json();
+                errorData = JSON.parse(resText);
             } catch (e) {
-                errorData = { message: await response.text() };
+                errorData = { message: resText };
             }
 
             if (!response.ok) {
