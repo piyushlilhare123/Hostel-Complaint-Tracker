@@ -164,46 +164,63 @@ router.patch('/:id', authenticateToken, async (req, res) => {
         if (!complaint) return res.status(404).json({ message: 'Complaint not found' });
 
         // IMPORTANT: Allow Students to REOPEN or RATE a resolved complaint
+        // IMPORTANT: Allow Students to RESOLVE, REOPEN or RATE their own complaint
         if (req.user.role === 'Student') {
             const { rating } = req.body;
-            if (String(complaint.userId) === String(req.user.id) && complaint.status === 'Resolved') {
-                 if (status === 'Pending') {
-                     complaint.status = 'Pending';
-                     complaint.assignedTo = null; 
-                     complaint.slaDeadline = null; 
-                     
-                     try {
-                         const admins = await User.findAll({ where: { role: 'Admin' } });
-                         const notifications = admins.map(a => ({
-                             message: `Student reopened complaint: ${complaint.title}`,
-                             userId: a.id,
-                             type: 'NewComplaint', 
-                             complaintId: complaint.id,
-                             isRead: false
-                         }));
-                         await Notification.bulkCreate(notifications);
-                     } catch(err) { console.error('Failed to notify admins of reopen', err); }
+            if (String(complaint.userId) === String(req.user.id)) {
+                // Case 1: Student wants to mark as Resolved
+                if (status === 'Resolved') {
+                    complaint.status = 'Resolved';
+                    await complaint.save();
+                    return res.json(complaint);
+                }
 
-                     await complaint.save();
-                     return res.json(complaint);
-                 } else if (rating !== undefined) {
-                     // Accept Star Rating
-                     const numRating = parseInt(rating, 10);
-                     if (numRating >= 1 && numRating <= 5) {
-                         complaint.rating = numRating;
-                         await complaint.save();
-                         return res.json(complaint);
-                     } else {
-                         return res.status(400).json({ message: 'Rating must be an integer between 1 and 5' });
-                     }
-                 }
+                // Case 2: Actions on already Resolved complaints (Reopen or Rate)
+                if (complaint.status === 'Resolved') {
+                    if (status === 'Pending') {
+                        complaint.status = 'Pending';
+                        complaint.assignedTo = null; 
+                        complaint.slaDeadline = null;
+                        complaint.rating = null; // Reset rating so student can rate again after re-resolution
+                        complaint.changed('rating', true); // Force Sequelize to detect null change
+                        
+                        try {
+                            const admins = await User.findAll({ where: { role: 'Admin' } });
+                            const notifications = admins.map(a => ({
+                                message: `Student reopened complaint: ${complaint.title}`,
+                                userId: a.id,
+                                type: 'NewComplaint', 
+                                complaintId: complaint.id,
+                                isRead: false
+                            }));
+                            await Notification.bulkCreate(notifications);
+                        } catch(err) { console.error('Failed to notify admins of reopen', err); }
+
+                        await complaint.save();
+                        return res.json(complaint);
+                    } else if (rating !== undefined) {
+                        const numRating = parseInt(rating, 10);
+                        if (numRating >= 1 && numRating <= 5) {
+                            complaint.rating = numRating;
+                            await complaint.save();
+                            return res.json(complaint);
+                        } else {
+                            return res.status(400).json({ message: 'Rating must be an integer between 1 and 5' });
+                        }
+                    }
+                }
             }
-            return res.status(403).json({ message: 'Access denied. Students can only update resolved complaints (reopen or rate).' });
+            return res.status(403).json({ message: 'Access denied. Students can only update their own complaints.' });
         }
 
-        // STRICT CHECK: Staff can only update if assigned to them
-        if (req.user.role === 'Staff' && complaint.assignedTo !== req.user.id) {
-            return res.status(403).json({ message: 'Access denied: You can only update complaints assigned to you.' });
+        // STRICT CHECK: Staff can only update if assigned to them and cannot set to 'Resolved'
+        if (req.user.role === 'Staff') {
+            if (complaint.assignedTo !== req.user.id) {
+                return res.status(403).json({ message: 'Access denied: You can only update complaints assigned to you.' });
+            }
+            if (status === 'Resolved') {
+                return res.status(403).json({ message: 'Access denied: Staff cannot mark complaints as Resolved. This must be done by the student.' });
+            }
         }
 
         if (status) complaint.status = status;

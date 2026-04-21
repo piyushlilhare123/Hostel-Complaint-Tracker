@@ -474,7 +474,6 @@ export default function ComplaintsList() {
                                                             >
                                                                 <option>Pending</option>
                                                                 <option>In Progress</option>
-                                                                <option>Resolved</option>
                                                                 <option>Rejected</option>
                                                             </select>
                                                         )
@@ -512,8 +511,20 @@ export default function ComplaintsList() {
                                                                     </div>
                                                                 </>
                                                             )}
-                                                            {complaint.status !== 'Resolved' && (
-                                                                <span className="text-xs text-slate-400 italic">No actions</span>
+                                                            {complaint.status !== 'Resolved' && complaint.status !== 'Rejected' && (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        if(window.confirm('Are you sure you want to mark this complaint as resolved?')) {
+                                                                            handleStatusUpdate(complaint.id, 'Resolved');
+                                                                        }
+                                                                    }}
+                                                                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition flex items-center justify-center gap-1 w-max shadow-sm"
+                                                                >
+                                                                    <Check size={14} /> Mark as Resolved
+                                                                </button>
+                                                            )}
+                                                            {complaint.status === 'Rejected' && (
+                                                                <span className="text-xs text-red-400 italic">Complaint Rejected</span>
                                                             )}
                                                         </div>
                                                     )}

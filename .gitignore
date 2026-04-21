@@ -15,8 +15,7 @@ dist-ssr
 
 # Environment & Database
 .env
-*.sqlite
-server/database.sqlite
+
 
 # Uploads
 public/uploads/*
