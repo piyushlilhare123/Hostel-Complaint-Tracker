@@ -17,7 +17,7 @@ export const playLongBeep = () => {
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
         
         oscillator.start(audioCtx.currentTime);
-        // Quick pulses for a bell alarm sequence
+       
         for (let i = 0.2; i < 1.5; i += 0.2) {
             gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime + i);
             gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + i + 0.1);
@@ -42,9 +42,9 @@ export const playBeep = () => {
         gainNode.connect(audioCtx.destination);
         
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
         
-        // Envelope to make a sharp "ping/beep" sound
+       
         gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
         gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.05);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);

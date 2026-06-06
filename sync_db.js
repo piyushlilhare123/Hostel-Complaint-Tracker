@@ -5,8 +5,7 @@ import Complaint from './server/models/Complaint.js';
 async function syncDatabase() {
     try {
         console.log('Starting database synchronization...');
-        // { alter: true } will attempt to update existing tables to match the models
-        // without dropping them, though it has some limitations with SQLite.
+       
         await sequelize.sync({ alter: true });
         console.log('✅ Database synced successfully with { alter: true }');
     } catch (error) {

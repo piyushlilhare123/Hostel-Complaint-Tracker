@@ -49,7 +49,7 @@ export default function FileComplaint() {
 
             if (!response.ok) {
                 if (response.status === 401 || response.status === 403) {
-                    // Token expired or invalid
+                 
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     navigate('/login');
@@ -59,7 +59,7 @@ export default function FileComplaint() {
                 throw new Error(errorData.message || errorData.error || JSON.stringify(errorData) || 'Failed to file complaint');
             }
 
-            // Show success message or redirect
+           
             alert('Complaint filed successfully!');
             navigate('/dashboard');
         } catch (err) {

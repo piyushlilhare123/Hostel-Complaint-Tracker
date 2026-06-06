@@ -34,7 +34,7 @@ export default function Dashboard() {
 
             <div className="lg:ml-72 p-6 lg:p-10 transition-all duration-300">
 
-                {/* Student Info Card */}
+                {}
                 {user.role === 'Student' && (
                     <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg mb-8">
                         <h2 className="text-3xl font-bold mb-2">Welcome, {user.name}!</h2>
@@ -49,7 +49,7 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {/* Admin Welcome Card */}
+                {}
                 {user.role === 'Admin' && (
                     <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white shadow-lg mb-8">
                         <h2 className="text-3xl font-bold mb-2">Welcome, {user.name}!</h2>
@@ -57,7 +57,7 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {/* Staff Welcome Card */}
+                {}
                 {user.role === 'Staff' && (
                     <div className="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-2xl p-6 text-white shadow-lg mb-8">
                         <h2 className="text-3xl font-bold mb-2">Welcome, {user.name}!</h2>

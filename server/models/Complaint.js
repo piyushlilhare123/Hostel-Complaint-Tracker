@@ -78,7 +78,7 @@ const Complaint = sequelize.define('Complaint', {
     },
 });
 
-// Associations
+
 Complaint.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 User.hasMany(Complaint, { foreignKey: 'userId', as: 'complaints' });
 

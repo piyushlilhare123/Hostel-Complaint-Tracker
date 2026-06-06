@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MessageCircle, X, Send, Bot, User, Zap, Wifi, Droplets, UtensilsCrossed, Trash2, Users, ChevronRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-// ─── Smart Response Engine ────────────────────────────────────────────────────
+
 
 const GREETINGS = ['Hello! ', 'Hi there. ', 'Greetings. ', 'I understand. ', 'Got it. '];
 const ACKNOWLEDGMENTS = [
@@ -14,7 +14,7 @@ const ACKNOWLEDGMENTS = [
 ];
 
 const RULES = [
-    // ── ELECTRICITY ──────────────────────────────────────────────────────────
+    
     {
         match: ['fan', 'ceiling fan', 'table fan', 'cooler'],
         topic: 'electricity', category: 'Maintenance',
@@ -40,7 +40,7 @@ const RULES = [
         tip: "Hostel staff usually replace burnt-out bulbs within 24 hours of reporting."
     },
 
-    // ── WATER ────────────────────────────────────────────────────────────────
+    
     {
         match: ['tap', 'faucet', 'leak', 'pipe', 'leakage', 'dripping'],
         topic: 'water', category: 'Maintenance',
@@ -60,7 +60,7 @@ const RULES = [
         tip: "Switch off geysers after use to prevent overheating and wastage."
     },
 
-    // ── WIFI ─────────────────────────────────────────────────────────────────
+   
     {
         match: ['wifi', 'internet', 'slow', 'connect', 'login', 'network'],
         topic: 'wifi', category: 'IT Support',
@@ -68,7 +68,6 @@ const RULES = [
         tip: "Hostel WiFi often uses captive portals — ensure your login session is active."
     },
 
-    // ── MESS ────────────────────────────────────────────────────────────────
     {
         match: ['mess', 'food', 'meal', 'lunch', 'dinner', 'breakfast'],
         topic: 'mess', category: 'Mess/Food',
@@ -76,7 +75,7 @@ const RULES = [
         tip: "Direct feedback to the supervisor on duty is the fastest way to resolve meal issues."
     },
 
-    // ── CLEANLINESS ──────────────────────────────────────────────────────────
+   
     {
         match: ['clean', 'dust', 'wash', 'toilet', 'bathroom', 'garbage'],
         topic: 'cleanliness', category: 'Maintenance',
@@ -84,8 +83,7 @@ const RULES = [
         tip: "Keeping common areas tidy helps housekeeping staff work more efficiently."
     },
 
-    // ── ROOMMATE ─────────────────────────────────────────────────────────────
-    {
+   {
         match: ['roommate', 'noisy', 'roomie', 'fight', 'conflict'],
         topic: 'roommate', category: 'Other',
         reply: () => `For handling roommate or roommate-adjacent issues:\n\n1. Try a calm 1-on-1 conversation about the disturbance first.\n2. Refer to the 'Shared Living' guidelines provided by the hostel.\n3. If noise persists after midnight, inform the night warden.\n4. Use the floor RA (Resident Assistant) for mediation.\n5. If safety is at risk, raise an urgent complaint immediately.`,
@@ -113,7 +111,7 @@ const processMessage = (messageText) => {
         }
     }
 
-    // Handle generic greetings
+  
     if (lower.includes('hi') || lower.includes('hello') || lower.includes('hey')) {
         return {
             type: 'invalid',
@@ -129,7 +127,6 @@ const processMessage = (messageText) => {
     };
 };
 
-// ─── Render helpers ───────────────────────────────────────────────────────────
 
 const TOPIC_ICONS = {
     electricity: Zap, water: Droplets, wifi: Wifi,

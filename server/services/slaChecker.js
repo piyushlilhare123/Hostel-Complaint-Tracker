@@ -2,11 +2,11 @@ import Complaint from '../models/Complaint.js';
 import Notification from '../models/Notification.js';
 import User from '../models/User.js';
 
-// SLA Configuration
+
 const SLA_MODE = process.env.SLA_MODE || 'testing';
 
 export const startSlaChecker = () => {
-    // Run every 10 seconds in testing, or every minute in production
+   
     const interval = SLA_MODE === 'testing' ? 10 * 1000 : 60 * 1000;
     
     console.log(`[SLA Checker] Started. Running every ${interval}ms`);
@@ -28,15 +28,15 @@ export const startSlaChecker = () => {
                 const timeRemainingMs = deadline - now;
                 const warningThresholdMs = SLA_MODE === 'testing' ? 60000 : 4 * 60 * 60000;
 
-                // 1. Check for Breach
+              
                 if (timeRemainingMs < 0) {
-                    // Alert Admins
+                   
                     await generateEscalationAlerts(complaint);
                 } 
-                // 2. Check for Near Deadline Warning
+              
                 else if (timeRemainingMs <= warningThresholdMs) {
                     if (complaint.assignedTo) {
-                        // Alert Assigned Staff
+                       
                         await generateWarningAlert(complaint);
                     }
                 }
@@ -48,11 +48,11 @@ export const startSlaChecker = () => {
 };
 
 async function generateEscalationAlerts(complaint) {
-    // Escalate to all Admins
+ 
     const admins = await User.findAll({ where: { role: 'Admin' } });
     
     for (const admin of admins) {
-        // Prevent duplicate spam
+       
         const existing = await Notification.findOne({
             where: {
                 userId: admin.id,
@@ -74,7 +74,7 @@ async function generateEscalationAlerts(complaint) {
 }
 
 async function generateWarningAlert(complaint) {
-    // Prevent duplicate spam
+   
     const existing = await Notification.findOne({
         where: {
             userId: complaint.assignedTo,

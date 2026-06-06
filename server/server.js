@@ -16,13 +16,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure uploads directory exists
+
 const uploadDir = 'public/uploads';
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
-// Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/users', userRoutes);
@@ -55,12 +55,11 @@ app.use('/api/reports', reportRoutes);
 import chatbotRoutes from './routes/chatbot.js';
 app.use('/api/hostel-chatbot', chatbotRoutes);
 
-// Static files and Client-side routing
+
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// Catch-all middleware for SPA
 app.use((req, res, next) => {
-    // Check if it's an API request or upload first
+    
     if (!req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
         res.sendFile(path.join(__dirname, '../dist/index.html'));
     } else {
@@ -70,11 +69,11 @@ app.use((req, res, next) => {
 
 import { startSlaChecker } from './services/slaChecker.js';
 
-// Database Synchronization and Server Start
+
 sequelize.sync() 
     .then(() => {
         console.log('Database synced successfully');
-        startSlaChecker(); // Start background polling immediately after DB sync
+        startSlaChecker(); 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         });

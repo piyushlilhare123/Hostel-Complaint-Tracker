@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-    const theme = 'dark'; // Hardcoded as per request
+    const theme = 'dark'; 
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -13,7 +13,7 @@ export const ThemeProvider = ({ children }) => {
         localStorage.setItem('theme', 'dark');
     }, []);
 
-    const toggleTheme = () => {}; // Disabled
+    const toggleTheme = () => {}; 
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

@@ -37,7 +37,7 @@ export default function StaffPerformanceReport() {
 
     const chartData = filteredData.slice(0, 5).map(s => ({
         ...s,
-        inProgress: Math.max(0, s.accepted - s.resolved) // Explicitly extract inProgress 
+        inProgress: Math.max(0, s.accepted - s.resolved)
     }));
 
     const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];

@@ -34,7 +34,7 @@ const Notification = sequelize.define('Notification', {
     }
 });
 
-// Associations
+
 Notification.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 User.hasMany(Notification, { foreignKey: 'userId', as: 'notifications' });
 

@@ -1,7 +1,6 @@
 import express from 'express';
 const router = express.Router();
 
-// Keyword-to-category map
 const HOSTEL_TOPICS = {
     electricity: ['electricity', 'power', 'light', 'fan', 'switch', 'socket', 'bulb', 'current', 'electric', 'outlet', 'trip', 'tripped'],
     water: ['water', 'tap', 'pipe', 'leakage', 'plumber', 'supply', 'tank', 'drainage', 'drain', 'leak', 'flood'],
@@ -90,7 +89,7 @@ const detectTopic = (message) => {
     return null;
 };
 
-// POST /api/hostel-chatbot
+
 router.post('/', (req, res) => {
     const { message } = req.body;
 

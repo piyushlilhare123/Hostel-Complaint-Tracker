@@ -19,7 +19,7 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// Get notifications for a user
+
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const notifications = await Notification.findAll({
@@ -38,7 +38,7 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Mark notification as read
+
 router.patch('/:id/read', authenticateToken, async (req, res) => {
     try {
         const notification = await Notification.findOne({
@@ -56,7 +56,6 @@ router.patch('/:id/read', authenticateToken, async (req, res) => {
     }
 });
 
-// Mark all as read
 router.patch('/read-all', authenticateToken, async (req, res) => {
     try {
         await Notification.update(

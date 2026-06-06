@@ -16,6 +16,6 @@ async function checkComplaint(id) {
     }
 }
 
-// Check the last complaint id from previous test logs (e.g. 11)
+
 const lastId = process.argv[2] || 11;
 checkComplaint(lastId);

@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
             if (!response.ok) {
-                // Return the specific error message from the server if available
+            
                 throw new Error(data.error || data.message || 'Registration failed');
             }
 

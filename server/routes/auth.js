@@ -5,16 +5,15 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-// Register
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password, role, hostelBlock, roomNumber, domain } = req.body;
 
-        // Check if user exists
+
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) return res.status(400).json({ message: 'User already exists' });
 
-        // Create new user
+
         await User.create({ name, email, password, role, hostelBlock, roomNumber, domain });
 
         res.status(201).json({ message: 'User registered successfully' });
@@ -24,25 +23,24 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login
+
 router.post('/login', async (req, res) => {
     try {
         const { email, password, role } = req.body;
 
-        // Find user by email
         const user = await User.findOne({ where: { email } });
         if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-        // Check password
+     
         const isMatch = await user.comparePassword(password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        // Check role
+
         if (role && user.role !== role) {
             return res.status(403).json({ message: 'Role mismatch' });
         }
 
-        // Generate token
+     
         const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
         res.json({

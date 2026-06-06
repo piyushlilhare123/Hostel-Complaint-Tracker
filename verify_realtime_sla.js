@@ -8,7 +8,7 @@ async function verifyRealTimeSLA() {
         await sequelize.authenticate();
         console.log('✅ DB Connected');
 
-        // 1. Get staff and admin
+     
         const staff = await User.findOne({ where: { role: 'Staff' } });
         const admin = await User.findOne({ where: { role: 'Admin' } });
         const student = await User.findOne({ where: { role: 'Student' } });
@@ -18,13 +18,12 @@ async function verifyRealTimeSLA() {
             return;
         }
 
-        // 2. Clear old notifications for cleaner testing output
+       
         await Notification.destroy({ where: {} });
 
-        // 3. Create a test complaint assigned to staff
+      
         const now = new Date();
-        const futureDeadline = new Date(now.getTime() + 60000); // 1 minute from now
-        
+        const futureDeadline = new Date(now.getTime() + 60000); 
         const complaint = await Complaint.create({
             title: 'Real-Time SLA Test',
             description: 'Testing the background checker',
@@ -39,7 +38,7 @@ async function verifyRealTimeSLA() {
         console.log(`✅ Created test complaint #${complaint.id} with deadline 1 minute from now.`);
 
         console.log('⏳ Waiting 15 seconds for SLA checker to poll and generate WARNING...');
-        await new Promise(r => setTimeout(r, 15000)); // wait for checker
+        await new Promise(r => setTimeout(r, 15000)); 
 
         const warningNotif = await Notification.findOne({ where: { type: 'Warning', complaintId: complaint.id } });
         if (warningNotif) {
@@ -48,13 +47,13 @@ async function verifyRealTimeSLA() {
             console.log('❌ FAILED: Warning Notification NOT found.');
         }
 
-        // 4. Force breach
-        complaint.slaDeadline = new Date(now.getTime() - 10000); // 10 seconds ago
+        
+        complaint.slaDeadline = new Date(now.getTime() - 10000); 
         await complaint.save();
         console.log(`✅ Forced breach of test complaint #${complaint.id}.`);
 
         console.log('⏳ Waiting 15 seconds for SLA checker to poll and generate BREACH...');
-        await new Promise(r => setTimeout(r, 15000)); // wait for checker
+        await new Promise(r => setTimeout(r, 15000)); 
 
         const breachNotif = await Notification.findOne({ where: { type: 'Breach', complaintId: complaint.id } });
         if (breachNotif) {
@@ -63,7 +62,7 @@ async function verifyRealTimeSLA() {
             console.log('❌ FAILED: Escalation Breach Notification NOT found.');
         }
 
-        // Cleanup
+      
         await complaint.destroy();
         console.log('🎉 REAL-TIME SLA VERIFICATION SCRIPT COMPLETED.');
 

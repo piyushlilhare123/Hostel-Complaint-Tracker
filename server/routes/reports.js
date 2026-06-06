@@ -7,10 +7,9 @@ import { Op } from 'sequelize';
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-// Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    const token = authHeader && authHeader.split(' ')[1]; 
 
     if (!token) return res.status(401).json({ message: 'Unauthorized: No token provided' });
 
@@ -21,20 +20,20 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// GET Staff Performance Report
+
 router.get('/staff-performance', authenticateToken, async (req, res) => {
     try {
         if (req.user.role !== 'Admin') {
             return res.status(403).json({ message: 'Access denied. Admins only.' });
         }
 
-        const { month } = req.query; // Format 'YYYY-MM'
+        const { month } = req.query; 
         let dateFilter = {};
         
         if (month) {
             const [yearStr, monthStr] = month.split('-');
             const year = parseInt(yearStr, 10);
-            const monthIdx = parseInt(monthStr, 10) - 1; // 0-indexed
+            const monthIdx = parseInt(monthStr, 10) - 1; 
 
             const startDate = new Date(year, monthIdx, 1, 0, 0, 0);
             const endDate = new Date(year, monthIdx + 1, 0, 23, 59, 59, 999);
@@ -47,10 +46,10 @@ router.get('/staff-performance', authenticateToken, async (req, res) => {
             };
         }
 
-        // 1. Fetch all Staff users
+       
         const staffUsers = await User.findAll({ where: { role: 'Staff' } });
         
-        // 2. Fetch complaints matching the date filter
+    
         const complaints = await Complaint.findAll({ 
             where: {
                 ...dateFilter,
@@ -58,7 +57,7 @@ router.get('/staff-performance', authenticateToken, async (req, res) => {
             } 
         });
 
-        // 3. Aggregate Performance Metrics
+       
         const performanceData = staffUsers.map(staff => {
             const staffComplaints = complaints.filter(c => c.assignedTo === staff.id);
             
@@ -70,7 +69,7 @@ router.get('/staff-performance', authenticateToken, async (req, res) => {
             const accepted = inProgress + resolved;
             const pendingActive = pending + inProgress;
 
-            // Formulas strictly given by user
+          
             const score = (resolved * 2) + (accepted * 1);
             const resolutionRate = assigned > 0 ? Math.round((resolved / assigned) * 100) : 0;
 
@@ -87,7 +86,7 @@ router.get('/staff-performance', authenticateToken, async (req, res) => {
             };
         });
 
-        // 5. Staff Ranking System
+        
         performanceData.sort((a, b) => b.score - a.score);
         performanceData.forEach((staff, index) => {
             staff.rank = index + 1;

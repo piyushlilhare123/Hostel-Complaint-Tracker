@@ -21,7 +21,7 @@ export default function ComplaintsList() {
 
         fetchAll();
 
-        // Poll for updates every 5 seconds
+      
         const interval = setInterval(fetchAll, 5000);
 
         return () => clearInterval(interval);
@@ -48,7 +48,7 @@ export default function ComplaintsList() {
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                window.location.href = '/login'; // Force redirect
+                window.location.href = '/login'; 
                 return;
             }
 
@@ -82,7 +82,7 @@ export default function ComplaintsList() {
             });
 
             if (response.ok) {
-                fetchComplaints(); // Refresh list
+                fetchComplaints(); 
             } else {
                 const data = await response.json();
                 alert(data.message || 'Failed to assign complaint.');
@@ -104,7 +104,7 @@ export default function ComplaintsList() {
             });
 
             if (response.ok) {
-                fetchComplaints(); // Refresh list
+                fetchComplaints(); 
             }
         } catch (error) {
             console.error('Error updating priority:', error);
@@ -123,7 +123,7 @@ export default function ComplaintsList() {
             });
 
             if (response.ok) {
-                fetchComplaints(); // Refresh list
+                fetchComplaints();
             }
         } catch (error) {
             console.error('Error updating status:', error);
@@ -154,7 +154,7 @@ export default function ComplaintsList() {
             });
 
             if (response.ok) {
-                fetchComplaints(); // Refresh list
+                fetchComplaints();
             } else {
                 const data = await response.json();
                 alert(data.message);
@@ -261,7 +261,7 @@ export default function ComplaintsList() {
                                                 <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs line-clamp-1" title={complaint.description}>
                                                     {complaint.description}
                                                 </div>
-                                                {/* Attachments Section */}
+                                                {}
                                                 {(complaint.imageUrl || complaint.videoUrl) && (
                                                     <div className="mt-2 flex gap-2">
                                                         {complaint.imageUrl && (
@@ -332,7 +332,7 @@ export default function ComplaintsList() {
                                                                     handleAssignmentUpdate(complaint.id, null);
                                                                     return;
                                                                 }
-                                                                // Prompt the Admin to input SLA time in HH:MM:SS based on priority
+                                                              
                                                                 let minH=0, maxH=0;
                                                                 if(complaint.priority==='High') { minH=0; maxH=24; }
                                                                 else if(complaint.priority==='Medium') { minH=24; maxH=48; }
@@ -343,8 +343,7 @@ export default function ComplaintsList() {
                                                                 const input = window.prompt(`Assign Staff (${complaint.priority} Priority)\nEnter manual SLA Resolution Time in HH:MM:SS format\n(Allowed range: ${minFormatted} to ${maxFormatted}):`, minFormatted);
                                                                 if (input === null) {
                                                                     e.target.value = complaint.assignedStaff?.id || '';
-                                                                    return; // Cancelled
-                                                                }
+                                                                    return; 
                                                                 
                                                                 const parts = input.trim().split(':');
                                                                 let h = parseInt(parts[0] || '0', 10);
@@ -359,8 +358,7 @@ export default function ComplaintsList() {
 
                                                                 const slaHrs = h + (m / 60) + (s / 3600);
                                                                 
-                                                                // Match Backend Constraints
-                                                                if (complaint.priority === 'High' && (slaHrs <= 0 || slaHrs > 24)) {
+                                                                // Match Backend Constraints  if (complaint.priority === 'High' && (slaHrs <= 0 || slaHrs > 24)) {
                                                                     alert('High priority SLA must be strictly between 00:00:01 and 24:00:00.');
                                                                     e.target.value = complaint.assignedStaff?.id || '';
                                                                     return;

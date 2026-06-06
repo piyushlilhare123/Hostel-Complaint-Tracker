@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-// Middleware to authenticate token
+
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -20,7 +20,7 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// Get All Users (Admin only)
+
 router.get('/', authenticateToken, async (req, res) => {
     try {
         if (req.user.role !== 'Admin') {
@@ -37,7 +37,7 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Get All Staff Members (Admin only)
+
 router.get('/staff', authenticateToken, async (req, res) => {
     try {
         if (req.user.role !== 'Admin') {
@@ -67,7 +67,7 @@ router.get('/staff', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete User (Admin only)
+
 router.delete('/:id', authenticateToken, async (req, res) => {
     try {
         if (req.user.role !== 'Admin') {
@@ -77,7 +77,6 @@ router.delete('/:id', authenticateToken, async (req, res) => {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        // Prevent deleting yourself
         if (user.id === req.user.id) {
             return res.status(400).json({ message: 'Cannot delete your own account' });
         }
@@ -89,7 +88,6 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Update Profile (Any authenticated user)
 router.patch('/profile', authenticateToken, async (req, res) => {
     try {
         const { name, email, password, hostelBlock, roomNumber, domain } = req.body;
@@ -103,7 +101,7 @@ router.patch('/profile', authenticateToken, async (req, res) => {
         if (roomNumber) user.roomNumber = roomNumber;
         if (domain) user.domain = domain;
         if (password) {
-            // Password hashing is handled by the model hook, but we need to set it
+          
             user.password = password;
         }
 

@@ -41,8 +41,7 @@ export const NotificationProvider = ({ children }) => {
 
                     setUnreadCount(prev => {
                         if (newUnreadCount > prev && prev !== 0 && !playedLong) {
-                            playBeep(); // Only regular beep if we didn't just long beep
-                        }
+                            playBeep(); }
                         return newUnreadCount;
                     });
                     
@@ -54,7 +53,7 @@ export const NotificationProvider = ({ children }) => {
         };
 
         fetchNotifications();
-        const interval = setInterval(fetchNotifications, 3000); // Poll every 3s
+        const interval = setInterval(fetchNotifications, 3000); 
         return () => clearInterval(interval);
     }, [token, user]);
 

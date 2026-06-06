@@ -12,7 +12,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
     return (
         <>
-            {/* Mobile Overlay */}
+            {}
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black/50 z-20 lg:hidden"
@@ -20,7 +20,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 />
             )}
 
-            {/* Sidebar */}
+            {}
             <div className={`
         fixed top-0 left-0 h-screen bg-slate-900 dark:bg-slate-950 dark:border-r dark:border-slate-800 text-white p-6 z-30 transition-transform duration-300
         w-72

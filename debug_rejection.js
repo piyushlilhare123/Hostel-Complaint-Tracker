@@ -6,7 +6,7 @@ async function runTest() {
     try {
         console.log('--- STARTING REJECTION WORKFLOW TEST ---');
 
-        // 1. Setup Identities
+      
         const users = [
             { name: 'Staff User', email: 'staff_test@example.com', role: 'Staff' },
             { name: 'Admin User', email: 'admin_test@example.com', role: 'Admin' },
@@ -45,7 +45,7 @@ async function runTest() {
 
         console.log('--- Identites Ready ---');
 
-        // 2. Student Creates Complaint
+     
         console.log('1. Student creating complaint...');
         const complaintRes = await fetch(`${BASE_URL}/complaints`, {
             method: 'POST',
@@ -59,7 +59,7 @@ async function runTest() {
         const complaintId = complaint.id;
         console.log('✅ Complaint Created:', complaintId);
 
-        // 3. Admin Assigns to Staff
+     
         console.log('2. Admin assigning to Staff...');
         const assignRes = await fetch(`${BASE_URL}/complaints/${complaintId}`, {
             method: 'PATCH',
@@ -72,7 +72,7 @@ async function runTest() {
         const assignData = await assignRes.json();
         console.log('✅ Assigned result:', assignData.assignedTo === ids.Staff ? 'SUCCESS' : 'FAILED');
 
-        // 4. Staff Rejects
+      
         console.log('3. Staff rejecting complaint...');
         const rejectRes = await fetch(`${BASE_URL}/complaints/${complaintId}`, {
             method: 'PATCH',
@@ -85,7 +85,7 @@ async function runTest() {
         const rejectData = await rejectRes.json();
         console.log('✅ Rejection result. Status:', rejectData.status, 'RejectedBy:', rejectData.rejectedBy);
 
-        // 5. Verify Persistence (Admin Check)
+       
         console.log('4. Admin verifying rejection persistence...');
         const viewRes = await fetch(`${BASE_URL}/complaints`, {
             headers: { 'Authorization': `Bearer ${tokens.Admin}` }

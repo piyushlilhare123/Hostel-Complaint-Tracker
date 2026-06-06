@@ -8,7 +8,7 @@ export default function Profile() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user, token, updateUser } = useAuth();
 
-    // Keep fields in sync with user state
+   
     useEffect(() => {
         if (user) {
             setName(user.name || '');
@@ -56,7 +56,7 @@ export default function Profile() {
             setMessage('Profile updated successfully!');
             setPassword('');
 
-            // Update local storage and context
+           
             if (data.user) {
                 updateUser(data.user);
             }
@@ -110,7 +110,7 @@ export default function Profile() {
                             />
                         </div>
 
-                        {/* Hostel Details - Only for Students */}
+                        {}
                         {user?.role === 'Student' && (
                             <div className="grid grid-cols-2 gap-6">
                                 <div>
@@ -139,7 +139,7 @@ export default function Profile() {
                             </div>
                         )}
 
-                        {/* Staff Details - Only for Staff */}
+                        {}
                         {user?.role === 'Staff' && (
                             <div>
                                 <label className="block text-slate-700 dark:text-slate-300 font-medium mb-2">Staff Domain / Expertise</label>

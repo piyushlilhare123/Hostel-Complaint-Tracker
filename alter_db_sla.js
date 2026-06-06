@@ -5,11 +5,11 @@ async function alterDatabaseForSLA() {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
 
-        // Use query interface to strictly add a column without dropping table
+      
         const queryInterface = sequelize.getQueryInterface();
         await queryInterface.addColumn('Complaints', 'slaDeadline', {
             type: sequelize.Sequelize.DATE,
-            allowNull: true, // Existing entries will have null
+            allowNull: true, 
         });
         
         console.log('Successfully added `slaDeadline` column to Complaints table.');
