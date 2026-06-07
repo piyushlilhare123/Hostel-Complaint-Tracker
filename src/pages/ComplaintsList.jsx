@@ -344,6 +344,7 @@ export default function ComplaintsList() {
                                                                 if (input === null) {
                                                                     e.target.value = complaint.assignedStaff?.id || '';
                                                                     return; 
+                                                                }
                                                                 
                                                                 const parts = input.trim().split(':');
                                                                 let h = parseInt(parts[0] || '0', 10);
@@ -358,7 +359,8 @@ export default function ComplaintsList() {
 
                                                                 const slaHrs = h + (m / 60) + (s / 3600);
                                                                 
-                                                                // Match Backend Constraints  if (complaint.priority === 'High' && (slaHrs <= 0 || slaHrs > 24)) {
+                                                                // Match Backend Constraints
+                                                                if (complaint.priority === 'High' && (slaHrs <= 0 || slaHrs > 24)) {
                                                                     alert('High priority SLA must be strictly between 00:00:01 and 24:00:00.');
                                                                     e.target.value = complaint.assignedStaff?.id || '';
                                                                     return;
